@@ -19,6 +19,7 @@ describe("<StatusIcon />", () => {
     { status: "inactive", icon: "pause" },
     { status: "empty", icon: "ban" },
     { status: "warning", icon: "exclamation-triangle" },
+    { status: "loading", icon: "circle-loader" },
   ];
 
   test.each(statusCases)("renders $status status", ({ status, icon }) => {
