@@ -61,6 +61,8 @@ tags:
     description: Healthchecks
   - name: deployment
     description: Export/Import Airbyte Configuration and Database resources.
+  - name: data_plane
+    description: Dataplane related resources.
 
 paths:
   /v1/workspaces/create:
@@ -2257,6 +2259,27 @@ paths:
                 $ref: "#/components/schemas/ImportRead"
         "404":
           $ref: "#/components/responses/NotFoundResponse"
+  /v1/data_plane/register:
+    post:
+      tags:
+        - data_plane
+      summary: Registers a Data Plane
+      operationId: registerDataPlane
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DataPlaneRegister"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataPlaneRead"
+        "422":
+          $ref: "#/components/responses/InvalidInputResponse"
 components:
   securitySchemes:
     bearerAuth:
@@ -2264,6 +2287,46 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    # DATA PLANE
+    DataPlaneCreate:
+      type: object
+      required:
+        - name
+        - region
+        - cloud
+        - zone
+      properties:
+        dataPlaneId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        region:
+          type: string
+        cloud:
+          type: string
+        zone:
+          type: string
+    DataPlaneRead:
+      type: object
+      required:
+        - dataPlaneId
+        - name
+        - region
+        - cloud
+        - zone
+      properties:
+        dataPlaneId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        region:
+          type: string
+        cloud:
+          type: string
+        zone:
+          type: string
     # WORKSPACE
     WorkspaceId:
       type: string
